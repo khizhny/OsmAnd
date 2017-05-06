@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">OsmAnd</string>
+    <string name="device_memory">Device Memory</string>
+    <string name="free">Free</string>
+    <string name="mb">MB</string>
+    <string name="downloading">Downloading</string>
+    <string name="world_regions">World Regions</string>
+    <string name="downloading_maps">Downloading maps</string>
+    <string name="from">from</string>
+</resources>

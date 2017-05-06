@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff8800</color>
+    <color name="colorPrimaryDark">#e68200</color>
+    <color name="colorAccent">#e68200</color>
+
+    <color name="colorBack">#eaeaea</color>
+
+    <color name="colorRegionBack">#ffffff</color>
+    <color name="colorRegionSeparator">#e5e5e5</color>
+    <color name="colorRegionText">#212121</color>
+
+    <color name="colorIcon">#a1887f</color>
+    <color name="colorIconGreen">#43a047</color>
+
+</resources>
