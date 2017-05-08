@@ -1,11 +1,13 @@
 package com.khizhny.osmand.model;
 
+import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
 public class Region implements Comparable<Region>{
 
+    private static final String FOLDER_NAME="TEST_APP_MAPS";
     private static final String EXTENSION = ".zip";
 
     @Override
@@ -15,6 +17,10 @@ public class Region implements Comparable<Region>{
         } catch (Exception e)  {
             return 0;
         }
+    }
+
+    public String getLocal_file_path() {
+        return Environment.getExternalStorageDirectory().getPath()+"/"+FOLDER_NAME+"/"+getRelativeFilePath();
     }
 
     public enum DownloadState {
@@ -46,7 +52,6 @@ public class Region implements Comparable<Region>{
 
     // download info
     public volatile DownloadState downloadState = DownloadState.NOT_STARTED;
-    public String local_file_path;
     public int downloadProgress=0;
     public int fileSize=0;
 
@@ -99,7 +104,7 @@ public class Region implements Comparable<Region>{
         if (roads==null) roads=map;
     }
 
-    public String getRelativeFilePath(){
+    private String getRelativeFilePath(){
         String result=name+ EXTENSION;
         Region t=parent;
         while (t!=null){

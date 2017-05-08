@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String REGIONS_XML = "regions.xml";
     public static final String DOWNLOAD_MAPS = "Download Maps";
     private static String TAG = "osmand";
-    private static final String FOLDER_NAME="TEST_APP_MAPS";
     private static final long REFRESH_INTERVAL_MSEC =2000;
 
 
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switch (clickedRegion.downloadState) {
                         case  NOT_STARTED:
                             clickedRegion.fileSize = 1;
-                            clickedRegion.local_file_path = Environment.getExternalStorageDirectory().getPath()+"/"+FOLDER_NAME+"/"+clickedRegion.getRelativeFilePath();
+                            clickedRegion.getLocal_file_path();
                             clickedRegion.downloadProgress=0;
                             if (myLoader.getStatus() == AsyncTask.Status.RUNNING) {
                                 clickedRegion.downloadState = Region.DownloadState.QUEUED;
@@ -340,19 +339,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home) goBack();
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        goBack();
-    }
-
-    /**
-     * Navigates back in tree topology
-     */
-    void goBack(){
         if (regionSelectedAsRoot !=root){
             regionSelectedAsRoot = regionSelectedAsRoot.getParent();
             regionsListAdapter = new RegionsListAdapter(regionSelectedAsRoot.getRegions());
@@ -395,17 +392,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // input stream to read file - with 8k buffer
                     InputStream input = new BufferedInputStream(url.openStream(), 8192);
 
-                    File file = new File(current.local_file_path);
+                    File file = new File(current.getLocal_file_path());
                     if (!file.exists()) {
-                        Log.d(TAG, "Creating file "+current.local_file_path);
+                        Log.d(TAG, "Creating file "+current.getLocal_file_path());
                         if (!file.mkdirs()) Log.d(TAG, "Problems creating Folder");
                     }else{
                         //TODO It is bad to delete existing file, but for test app...sgoditsa.
-                        Log.d(TAG, "File already exists. Deleting "+current.local_file_path);
+                        Log.d(TAG, "File already exists. Deleting "+current.getLocal_file_path());
                         file.delete();
                     }
                     // Output stream to write file
-                    OutputStream output = new FileOutputStream(current.local_file_path);
+                    OutputStream output = new FileOutputStream(current.getLocal_file_path());
 
                     byte data[] = new byte[1024];
                     int total = 0;
@@ -429,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (!downloadQueue.contains(current))
                         {
                             Log.d(TAG,"Stop loading. Not in the list anymore.");
-                            file = new File(current.local_file_path);
+                            file = new File(current.getLocal_file_path());
                             file.delete();
                             current.downloadState= Region.DownloadState.NOT_STARTED;
                             current.downloadProgress=0;
